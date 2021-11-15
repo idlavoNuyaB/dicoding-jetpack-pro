@@ -1,10 +1,16 @@
 package com.freisia.vueee.ui.daftar.tvshow
 
-import android.content.Context
-import androidx.test.core.app.ApplicationProvider
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.freisia.vueee.data.repository.TVRepository
 import junit.framework.Assert.assertEquals
+import org.junit.After
+import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TestRule
 import org.junit.runner.RunWith
+import org.koin.core.context.stopKoin
+import org.mockito.Mockito.mock
 
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
@@ -13,14 +19,43 @@ import org.robolectric.annotation.Config
 @Config(sdk = [28])
 class TVShowsViewModelTest {
 
-    private lateinit var tvShowsViewModel: TVShowsViewModel
-    private val context: Context = ApplicationProvider.getApplicationContext<Context>()
+    private lateinit var viewModel: TVShowsViewModel
+    private lateinit var repository: TVRepository
+    @get:Rule
+    val testInstantTaskExecutorRule: TestRule = InstantTaskExecutorRule()
+
+    @Before
+    fun setUp(){
+        repository = mock(TVRepository::class.java)
+        viewModel = TVShowsViewModel(repository)
+    }
 
     @Test
     fun getData() {
-        tvShowsViewModel = TVShowsViewModel()
-        val detail = tvShowsViewModel.getData(context)
-        val equal = 20
-        assertEquals(equal,detail.size)
+        viewModel.getData()
+        viewModel.isFound.observeForever{
+            if(it){
+                viewModel.listData.observeForever{ its ->
+                    assertEquals(20,its.size)
+                }
+            }
+        }
+    }
+
+    @Test
+    fun onLoadMore(){
+        viewModel.onLoadMore()
+        viewModel.isFound.observeForever{
+            if(it){
+                viewModel.listData.observeForever{ its ->
+                    assertEquals(20,its.size)
+                }
+            }
+        }
+    }
+
+    @After
+    fun tearDown(){
+        stopKoin()
     }
 }

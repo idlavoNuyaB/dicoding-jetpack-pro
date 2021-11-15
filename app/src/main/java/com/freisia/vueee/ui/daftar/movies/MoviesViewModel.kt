@@ -1,29 +1,60 @@
 package com.freisia.vueee.ui.daftar.movies
 
-import android.content.Context
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.freisia.vueee.R
-import com.freisia.vueee.model.Movie
+import androidx.lifecycle.viewModelScope
+import com.freisia.vueee.data.repository.MovieRepository
+import com.freisia.vueee.model.movie.SearchMovie
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class MoviesViewModel : ViewModel() {
-    private val listData : ArrayList<Movie> = ArrayList()
+class MoviesViewModel(private val repository: MovieRepository) : ViewModel() {
+    var listData = MutableLiveData<List<SearchMovie>>()
+    var isLoading = MutableLiveData<Boolean>()
+    var isFound = MutableLiveData<Boolean>()
+    private var sizeItem = 20
+    private var page = 1
+    private var totalPages = 500
 
-    fun getData(context: Context) : ArrayList<Movie>{
-        val idMovies = context.resources.getIntArray(R.array.id_movie)
-        val titleMovies = context.resources.getStringArray(R.array.title_movie)
-        val ratingMovies = context.resources.getStringArray(R.array.rating_movie)
-        val durationMovies = context.resources.getStringArray(R.array.duration_movie)
-        val reviewMovies = context.resources.getIntArray(R.array.review_movie)
-        val genreMovies = context.resources.getStringArray(R.array.genre_movie)
-        val descriptionMovies = context.resources.getStringArray(R.array.description_movie)
-        val broadcastMovies = context.resources.getStringArray(R.array.broadcast_movie)
-        val imageMovies = context.assets.list("movies")
-        for((index,movie) in idMovies.withIndex()){
-            listData.add(Movie(movie, titleMovies[index], ratingMovies[index],
-                imageMovies?.get(index) as String, broadcastMovies[index], genreMovies[index],
-                durationMovies[index],reviewMovies[index],descriptionMovies[index]
-            ))
+    fun getData() = viewModelScope.launch(Dispatchers.IO){
+        try{
+            val response = repository.getList(page)
+            withContext(Dispatchers.Main){
+                isLoading.value = true
+                if(response.isSuccessful){
+                    if(!response.body()?.result.isNullOrEmpty()){
+                        if(sizeItem == response.body()?.result?.size){
+                            listData.value = response.body()?.result
+                            totalPages = response.body()?.totalPages as Int
+                            isLoading.value = false
+                            isFound.value = true
+                        } else {
+                            isLoading.value = false
+                            isFound.value = false
+                        }
+                    } else {
+                        isLoading.value = false
+                        isFound.value = false
+                    }
+                } else {
+                    isLoading.value = false
+                    isFound.value = false
+                }
+
+            }
+        }  catch (e: Exception){
+            withContext(Dispatchers.Main){
+                isFound.value = false
+                isLoading.value = false
+            }
         }
-        return listData
+    }
+
+    fun onLoadMore(){
+        if(page <= totalPages){
+            page++
+            getData()
+        }
     }
 }

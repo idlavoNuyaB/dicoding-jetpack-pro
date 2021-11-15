@@ -9,6 +9,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:text="@string/notfound"
+            android:textColor="@color/pureBlack"
+            android:id="@+id/nfs"
+            android:layout_margin="20dp"
+            android:visibility="gone"
+            tools:ignore="MissingConstraints"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list2"
             android:layout_width="match_parent"
@@ -17,5 +27,18 @@
             tools:listitem="@layout/layout_item_card">
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
+    <View
+        android:id="@+id/white_views"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/pureWhite"
+        android:visibility="gone"/>
 
+    <ProgressBar
+        android:id="@+id/loadings"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:indeterminate="true"
+        android:visibility="gone" />
 </FrameLayout>
