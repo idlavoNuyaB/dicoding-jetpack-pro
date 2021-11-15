@@ -1,28 +1,55 @@
 package com.freisia.vueee.ui.daftar.tvshow
 
-import android.content.Context
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.freisia.vueee.R
-import com.freisia.vueee.model.Movie
+import androidx.lifecycle.viewModelScope
+import com.freisia.vueee.data.repository.TVRepository
+import com.freisia.vueee.model.tv.SearchTV
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class TVShowsViewModel : ViewModel() {
-    private val listData : ArrayList<Movie> = ArrayList()
+class TVShowsViewModel(private val repository: TVRepository) : ViewModel() {
+    var listData = MutableLiveData<List<SearchTV>>()
+    var isLoading = MutableLiveData<Boolean>()
+    var isFound = MutableLiveData<Boolean>()
+    private var page = 1
+    private var totalPages = 500
 
-    fun getData(context: Context) : ArrayList<Movie>{
-        val idTV = context.resources.getIntArray(R.array.id_tv)
-        val titleTV = context.resources.getStringArray(R.array.title_tv)
-        val ratingTV = context.resources.getStringArray(R.array.rating_tv)
-        val durationTV = context.resources.getStringArray(R.array.duration_tv)
-        val reviewTV = context.resources.getIntArray(R.array.review_tv)
-        val genreTV = context.resources.getStringArray(R.array.genre_tv)
-        val descriptionTV = context.resources.getStringArray(R.array.description_tv)
-        val broadcastTV = context.resources.getStringArray(R.array.broadcast_tv)
-        val imageTV = context.assets.list("tvshows")
-        for((index,tv) in idTV.withIndex()){
-            listData.add(Movie(tv, titleTV[index], ratingTV[index],
-                imageTV?.get(index) as String, broadcastTV[index], genreTV[index],
-                durationTV[index],reviewTV[index],descriptionTV[index]
-            ))
+    fun getData() = viewModelScope.launch(Dispatchers.IO) {
+        try {
+            withContext(Dispatchers.Main) {
+                isLoading.value = true
+            }
+            val response = repository.getList(page)
+            if (response.isSuccessful) {
+                if (!response.body()?.result.isNullOrEmpty()) {
+                    withContext(Dispatchers.Main) {
+                        listData.value = response.body()?.result
+                        isLoading.value = false
+                        isFound.value = true
+                        totalPages = response.body()?.totalPages as Int
+                    }
+                } else {
+                    isLoading.value = false
+                    isFound.value = false
+                }
+            } else {
+                isLoading.value = false
+                isFound.value = false
+            }
+        } catch(e:Exception) {
+            withContext(Dispatchers.Main) {
+                isFound.value = false
+                isLoading.value = false
+            }
         }
-        return listData
-    }}
+    }
+
+    fun onLoadMore(){
+        page++
+        if(page <= totalPages){
+            getData()
+        }
+    }
+}

@@ -50,6 +50,17 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:orientation="vertical">
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="30sp"
+            android:text="@string/notfound"
+            android:textColor="@color/pureBlack"
+            android:id="@+id/nfs"
+            android:layout_margin="20dp"
+            android:visibility="gone"
+            tools:ignore="MissingConstraints"/>
+        <TextView
+            android:id="@+id/ratings"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -71,12 +82,14 @@
             app:layout_collapseMode="parallax"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         <View
+            android:id="@+id/view1"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@color/shadow"
             app:layout_collapseMode="parallax"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         <TextView
+            android:id="@+id/durations"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -98,12 +111,14 @@
             app:layout_collapseMode="parallax"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         <View
+            android:id="@+id/view2"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@color/shadow"
             app:layout_collapseMode="parallax"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         <TextView
+            android:id="@+id/genres"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -124,11 +139,13 @@
             android:textSize="14sp"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         <View
+            android:id="@+id/view3"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@color/shadow"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         <TextView
+            android:id="@+id/broadcasts"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -150,12 +167,14 @@
             app:layout_collapseMode="parallax"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         <View
+            android:id="@+id/view4"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@color/shadow"
             app:layout_collapseMode="parallax"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         <TextView
+            android:id="@+id/reviews"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -177,12 +196,14 @@
             app:layout_collapseMode="parallax"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         <View
+            android:id="@+id/view5"
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:background="@color/shadow"
             app:layout_collapseMode="parallax"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
         <TextView
+            android:id="@+id/descriptions"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -204,4 +225,19 @@
             app:layout_collapseMode="parallax"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </LinearLayout>
+    <View
+        android:id="@+id/white_views"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/pureWhite"
+        android:visibility="gone"/>
+
+    <ProgressBar
+        android:id="@+id/loadings"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:indeterminate="true"
+        android:visibility="gone" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,5 +1,6 @@
 package com.freisia.vueee.ui.daftar
 
+
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -30,6 +31,12 @@ class DaftarActivity : AppCompatActivity() {
         toolbar.setContentInsetsAbsolute(0, 0)
         toolbar.contentInsetEnd
         toolbar.setPadding(0, 0, 0, 0)
+        val view = toolbar.getChildAt(0)
+        view.setOnClickListener {
+            val intent = Intent(this@DaftarActivity,DaftarActivity::class.java)
+            finish()
+            startActivity(intent)
+        }
     }
 
     private fun initTabLayout(){

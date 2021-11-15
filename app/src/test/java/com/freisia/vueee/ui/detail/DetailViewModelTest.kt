@@ -1,32 +1,54 @@
 package com.freisia.vueee.ui.detail
 
-import android.content.Context
-import androidx.test.core.app.ApplicationProvider
-import com.freisia.vueee.ui.daftar.movies.MoviesViewModel
-import com.freisia.vueee.ui.daftar.tvshow.TVShowsViewModel
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.freisia.vueee.data.repository.MovieRepository
+import com.freisia.vueee.data.repository.TVRepository
+import com.freisia.vueee.model.movie.Movie
+import com.freisia.vueee.model.tv.TV
 import junit.framework.Assert.assertEquals
+import org.junit.After
+import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
+import org.junit.rules.TestRule
 import org.junit.runner.RunWith
+import org.koin.core.context.stopKoin
+import org.mockito.Mockito
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [28])
 class DetailViewModelTest {
-    private lateinit var viewModel: DetailViewModel
+    private lateinit var viewModelM: DetailViewModel<MovieRepository, Movie>
+    private lateinit var viewModelT: DetailViewModel<TVRepository, TV>
+    private lateinit var repositoryT: TVRepository
+    private lateinit var repositoryM: MovieRepository
+    @get:Rule
+    val testInstantTaskExecutorRule: TestRule = InstantTaskExecutorRule()
 
-    private val context = ApplicationProvider.getApplicationContext<Context>()
+    @Before
+    fun setUp(){
+        repositoryT = Mockito.mock(TVRepository::class.java)
+        repositoryM = Mockito.mock(MovieRepository::class.java)
+        viewModelM = DetailViewModel(repositoryM)
+        viewModelT = DetailViewModel(repositoryT)
+    }
 
     @Test
     fun getData() {
-        val alldetailM = MoviesViewModel().getData(context)
-        val alldetailT = TVShowsViewModel().getData(context)
-        viewModel = DetailViewModel()
-        val detailM = viewModel.getData(alldetailM[0])
-        val equalM = "A Star is Born"
-        val detailT = viewModel.getData(alldetailT[0])
-        val equalT = "Arrow"
-        assertEquals(equalM, detailM.title)
-        assertEquals(equalT,detailT.title)
+        viewModelM.getData(400160)
+        viewModelT.getData(82856)
+        viewModelT.listData.observeForever{
+            assertEquals("The Mandalorian",it.original_name)
+        }
+        viewModelM.listData.observeForever{
+            assertEquals("The SpongeBob Movie: Sponge on the Run",it.original_title)
+        }
+    }
+
+    @After
+    fun tearDown(){
+        stopKoin()
     }
 }
