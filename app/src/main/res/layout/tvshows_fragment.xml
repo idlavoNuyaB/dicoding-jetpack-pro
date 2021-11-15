@@ -3,22 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.daftar.tvshow.TVShowsFragment">
+    tools:context=".ui.list.tvshow.TVShowsFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+        <Spinner
+            android:id="@+id/spinners2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_gravity="end"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="30dp"
+            android:textSize="30sp"
             android:text="@string/notfound"
             android:textColor="@color/pureBlack"
             android:id="@+id/nfs"
             android:layout_margin="20dp"
-            android:visibility="gone"
-            tools:ignore="MissingConstraints"/>
+            android:visibility="gone"/>
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list2"
             android:layout_width="match_parent"

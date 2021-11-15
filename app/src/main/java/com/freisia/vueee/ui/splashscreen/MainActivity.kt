@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.os.Handler
 import androidx.appcompat.app.AppCompatActivity
 import com.freisia.vueee.R
-import com.freisia.vueee.ui.daftar.DaftarActivity
+import com.freisia.vueee.ui.list.ListActivity
 
 
 class MainActivity : AppCompatActivity() {
@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(
                 Intent(
                     this@MainActivity,
-                    DaftarActivity::class.java
+                    ListActivity::class.java
                 )
             )
             finish()

@@ -97,6 +97,11 @@ class CardAdapter<T>(movie: ArrayList<T>, private val type: String, recyclerView
         notifyDataSetChanged()
     }
 
+    fun resetData(){
+        filtered = ArrayList()
+        notifyDataSetChanged()
+    }
+
     abstract class CardViewHolder<T> (v: View) : RecyclerView.ViewHolder(v){
         abstract fun bindUser(movie: T)
     }

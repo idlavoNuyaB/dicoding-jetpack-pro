@@ -12,5 +12,23 @@
     <string name="broadcast">Premiere:</string>
     <string name="description">Description:</string>
     <string name="review">%s%% User Score </string>
+    <string name="favourite">Favourite</string>
     <string name="notfound">The item not found because the action is interrupted</string>
+    <string-array name="spinner">
+        <item>Popular</item>
+        <item>Now Playing</item>
+        <item>Top Rated</item>
+    </string-array>
+    <string-array name="spinnerTV">
+        <item>Popular</item>
+        <item>On Air</item>
+        <item>Top Rated</item>
+    </string-array>
+    <string name="messagedelete">Are you sure to delete all from Favorite Movies?</string>
+    <string name="messagedeleteTV">Are you sure to delete all from Favorite TVShows?</string>
+    <string name="delete">Delete all Movies</string>
+    <string name="deleteTV">Delete all TVShows</string>
+    <string name="cancel">Cancel to delete</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

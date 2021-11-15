@@ -1,6 +1,7 @@
 package com.freisia.vueee
 
 import android.app.Application
+import com.freisia.vueee.di.localModule
 import com.freisia.vueee.di.networkModule
 import com.freisia.vueee.di.repositoryModule
 import com.freisia.vueee.di.viewmodelModule
@@ -15,6 +16,7 @@ class App : Application() {
             androidLogger()
             androidContext(this@App)
             modules(networkModule)
+            modules(localModule(this@App))
             modules(repositoryModule)
             modules(viewmodelModule)
         }
